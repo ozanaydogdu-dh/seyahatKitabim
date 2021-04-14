@@ -31,7 +31,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var annotationLatitude = Double()
     
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,12 +61,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             fetchRequest.returnsObjectsAsFaults =  false
             
             do{
-            let results = try context.fetch(fetchRequest)
+                let results = try context.fetch(fetchRequest)
                 if results.count > 0 {
                     for results in results as! [NSManagedObject]{
                         if let title = results.value(forKey: "title") as? String{
                             annotationTitle = title
-                           
+                            
                             if let subtitle = results.value(forKey: "subtitle") as? String{
                                 annotationSubtitle = subtitle
                             }
@@ -74,7 +74,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                                 annotationLatitude = latitude
                             }
                             if let longitude = results.value(forKey: "longitude") as? Double{
-                        annotationLongitude = longitude
+                                annotationLongitude = longitude
                                 
                                 
                                 let annotation = MKPointAnnotation()
@@ -94,7 +94,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                                 let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
                                 let region = MKCoordinateRegion(center: coordinate, span: span)
                                 mapView.setRegion(region, animated: true)
-                            
+                                
                             }
                         }
                     }
@@ -108,8 +108,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }
         
         
-        
-        
     }
     
     
@@ -119,7 +117,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             
             let touchedPoint = gestureRecognizer.location(in: self.mapView)
             let touchedCoordinates = self.mapView.self.convert(touchedPoint, toCoordinateFrom: self.mapView)
-           
+            
             chosenLatitude = touchedCoordinates.latitude
             chosenLongitude = touchedCoordinates.longitude
             
@@ -133,31 +131,22 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }
         
         
-    
-        
     }
-    
-    
-    
-    
-    
-    
-    
     
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if selectedTitle == ""{
             
-       
-        
-        let location = CLLocationCoordinate2D(latitude: locations[0].coordinate.latitude, longitude: locations[0].coordinate.longitude)
-        let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-        let region = MKCoordinateRegion(center: location, span: span)
-        mapView.setRegion(region, animated: true)
+            
+            
+            let location = CLLocationCoordinate2D(latitude: locations[0].coordinate.latitude, longitude: locations[0].coordinate.longitude)
+            let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+            let region = MKCoordinateRegion(center: location, span: span)
+            mapView.setRegion(region, animated: true)
         }else{
             
         }
-        }
+    }
     
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -189,32 +178,28 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if selectedTitle != ""{
             
-  var requestLocation = CLLocation(latitude: annotationLatitude, longitude: annotationLongitude)
+            var requestLocation = CLLocation(latitude: annotationLatitude, longitude: annotationLongitude)
             CLGeocoder().reverseGeocodeLocation (requestLocation) { (placemarks, error) in
                 
-                   if let placemark = placemarks{
-                       
-                       if placemark.count > 0 {
+                if let placemark = placemarks{
+                    
+                    if placemark.count > 0 {
                         let newPlacemark = MKPlacemark(placemark: placemarks![0])
                         let item = MKMapItem(placemark: newPlacemark)
                         item.name = self.annotationTitle
-                     
+                        
                         let launchOptions = [MKLaunchOptionsDirectionsModeDriving: MKLaunchOptionsDirectionsModeDriving]
                         item.openInMaps(launchOptions: launchOptions)
-                       
-                       }
-            }
-             
-                    
+                        
+                    }
                 }
                 
-              
+                
             }
+            
+            
         }
-    
-
-    
-    
+    }
     
     
     
@@ -243,6 +228,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
     }
     
-
+    
 }
 

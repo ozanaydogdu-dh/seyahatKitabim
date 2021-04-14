@@ -9,9 +9,9 @@ import UIKit
 import CoreData
 
 class firstViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
     
-
+    
+    
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,7 +26,7 @@ class firstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(addButtonClicked))
         tableView.delegate = self
         tableView.dataSource = self
-
+        
         getData()
         
     }
@@ -48,13 +48,13 @@ class firstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         do{
             let results = try  context.fetch(request)
             if results.count > 0 {
-               
+                
                 
                 self.titleArray.removeAll(keepingCapacity: false)
                 self.idArray.removeAll(keepingCapacity: false)
                 
                 for results in results as! [NSManagedObject]{
-                 
+                    
                     
                     if let title = results.value(forKey: "title") as? String{
                         self.titleArray.append(title)
@@ -68,23 +68,11 @@ class firstViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     tableView.reloadData()
                 }
                 
-                
-             
             }
-
+            
         }catch{
             print("error")
         }
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
     }
     
@@ -94,10 +82,7 @@ class firstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         chosenTitle = ""
         performSegue(withIdentifier: "toViewController", sender: nil)
         
-        
-        
-        
-        
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -110,11 +95,6 @@ class firstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.textLabel?.text = titleArray[indexPath.row]
         return cell
     }
-  
-    
-    
-    
-    
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -122,9 +102,6 @@ class firstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         chosenId = idArray[indexPath.row]
         performSegue(withIdentifier: "toViewController", sender: nil)
     }
-    
-    
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toViewController"{
@@ -137,5 +114,5 @@ class firstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     
-
+    
 }
